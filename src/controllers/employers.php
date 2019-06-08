@@ -9,7 +9,7 @@ function obtenerEmpleados($response) {
         $stmt = getConnection()->query($sql);
         $employees = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        
+
         return json_encode($employees);
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -84,4 +84,4 @@ function eliminarEmpleado(Request $request, Response $response, array $args) {
     }
 }
 
- ?>
+?>
