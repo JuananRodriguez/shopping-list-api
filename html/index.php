@@ -1,12 +1,10 @@
 <?php
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+//use Psr\Http\Message\ServerRequestInterface as Request;
+//use Psr\Http\Message\ResponseInterface as Response;
 
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-
-
 
 require '../vendor/autoload.php';
 require_once '../src/controllers/index.php';
@@ -24,7 +22,8 @@ function getConnection() {
     $dbhost="database";
     $dbuser="root";
     $dbpass="1234";
-    $dbname="Example";
+//    $dbname="Example";
+    $dbname="product_list";
     $port = "3306";
     $dbh = new PDO("mysql:host=$dbhost;port={$port};dbname=$dbname;charset=utf8", $dbuser, $dbpass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

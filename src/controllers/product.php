@@ -1,45 +1,36 @@
 <?php
 
-//use Psr\Http\Message\ServerRequestInterface as Request;
-//use Psr\Http\Message\ResponseInterface as Response;
-
 require_once(__ROOT__."/src/models/product.php");
-
 
 function workingPage () {
 
     $product = new Product();
     $product->set('name', 'new name');
-
     return json_encode( $product->getData() );
 
 }
 
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-
 
 class ProductCtl {
 
     public static function getAll($response)
     {
-        $sql = "SELECT * FROM empleados";
+        $sql = "SELECT * FROM products";
         try {
             $stmt = getConnection()->query($sql);
             $employees = $stmt->fetchAll(PDO::FETCH_OBJ);
             $db = null;
-
             return json_encode($employees);
         } catch (PDOException $e) {
-            echo '{"error":{"text":' . $e->getMessage() . '}}';
+            return '{"error":{"text":' . $e->getMessage() . '}}';
         }
     }
 
     public static function get(Request $request, Response $response, array $args)
     {
-        $sql = "SELECT * FROM empleados WHERE id = :id";
+        $sql = "SELECT * FROM products WHERE id = :id";
         $id = $request->getAttribute('id');
 
         try {
@@ -48,28 +39,33 @@ class ProductCtl {
             $stmt->bindParam("id", $id);
             $stmt->execute();
             $db = null;
-            return json_encode($stmt->fetchObject());
+            $result = $stmt->fetchObject();
+
+            if (!$result)
+                return json_encode([]);
+            return json_encode([$result]);
+
         } catch (PDOException $e) {
-            echo '{"error":{"text":' . $e->getMessage() . '}}';
+            return '{"error":{"text":' . $e->getMessage() . '}}';
         }
     }
 
     public static function create(Request $request, Response $response, array $args)
     {
         $emp = json_decode($request->getBody());
-        $sql = "INSERT INTO empleados (nombre, salario, edad) VALUES (:nombre, :salario, :edad)";
+        $sql = "INSERT INTO products (name, quantity) VALUES (:name, :quantity)";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("nombre", $emp->nombre);
-            $stmt->bindParam("salario", $emp->salario);
-            $stmt->bindParam("edad", $emp->edad);
+            $stmt->bindParam("name", $emp->name);
+            $stmt->bindParam("quantity", $emp->quantity);
+//            $stmt->bindParam("edad", $emp->edad);
             $stmt->execute();
             $emp->id = $db->lastInsertId();
             $db = null;
-            echo json_encode($emp);
+            return json_encode($emp);
         } catch (PDOException $e) {
-            echo '{"error":{"text":' . $e->getMessage() . '}}';
+            return '{"error":{"text":' . $e->getMessage() . '}}';
         }
     }
 
@@ -77,33 +73,33 @@ class ProductCtl {
     {
         $emp = json_decode($request->getBody());
         $id = $request->getAttribute('id');
-        $sql = "UPDATE empleados SET nombre=:nombre, salario=:salario, edad=:edad WHERE id=:id";
+        $sql = "UPDATE products SET name=:name, quantity=:quantity WHERE id=:id";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("nombre", $emp->nombre);
-            $stmt->bindParam("salario", $emp->salario);
-            $stmt->bindParam("edad", $emp->edad);
+            $stmt->bindParam("name", $emp->name);
+            $stmt->bindParam("quantity", $emp->quantity);
+//            $stmt->bindParam("edad", $emp->edad);
             $stmt->bindParam("id", $id);
             $stmt->execute();
             $db = null;
-            echo json_encode($emp);
+            return json_encode($emp);
         } catch (PDOException $e) {
-            echo '{"error":{"text":' . $e->getMessage() . '}}';
+            return '{"error":{"text":' . $e->getMessage() . '}}';
         }
     }
 
     public static function delete(Request $request, Response $response, array $args)
     {
         $id = $request->getAttribute('id');
-        $sql = "DELETE FROM empleados WHERE id=:id";
+        $sql = "DELETE FROM products WHERE id=:id";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
             $stmt->bindParam("id", $id);
             $stmt->execute();
             $db = null;
-            echo '{"error":{"text":"se elimino el empleado"}}';
+            echo 'product removed';
         } catch (PDOException $e) {
             echo '{"error":{"text":' . $e->getMessage() . '}}';
         }
