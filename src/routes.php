@@ -17,14 +17,13 @@ $app->group('/api', function () use ($app) {
         $app->delete('/empleado/{id}', 'eliminarEmpleado');
 
 
-        /** Products CRUD
-        $app->get('/product', 'obtenerEmpleados');
-        $app->get('/product/{id}', 'obtenerEmpleado');
-        $app->post('/product', 'agregarEmpleado');
-        $app->put('/product/{id}', 'actualizarEmpleado');
-        $app->delete('/product/{id}', 'eliminarEmpleado');
+        /** Products CRUD */
+        $app->get('/product', 'ProductCtl::getAll');
+        $app->get('/product/{id}', 'ProductCtl::get');
+        $app->post('/product', 'ProductCtl::create');
+        $app->put('/product/{id}', 'ProductCtl::update');
+        $app->delete('/product/{id}', 'ProductCtl::delete');
 
-        */
 
         $app->get('/test', 'workingPage');
 

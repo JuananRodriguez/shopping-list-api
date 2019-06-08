@@ -6,14 +6,11 @@ class Product {
 
 
 
-
-
     /** Get All Data */
 
     function getData(){
        return $this;
     }
-
 
     /** Getter and Setters */
 
