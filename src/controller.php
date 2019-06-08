@@ -16,6 +16,22 @@ function obtenerEmpleados($response) {
     }
 };
 
+function obtenerEmpleado(Request $request, Response $response, array $args) {
+    $sql = "SELECT * FROM empleados WHERE id = :id";
+    $id = $request->getAttribute('id');
+
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $db = null;
+        return json_encode($stmt->fetchObject());
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+};
+
 function agregarEmpleado(Request $request, Response $response, array $args) {
     $emp = json_decode($request->getBody());
     $sql = "INSERT INTO empleados (nombre, salario, edad) VALUES (:nombre, :salario, :edad)";
