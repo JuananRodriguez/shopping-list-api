@@ -3,7 +3,13 @@
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
+
+define('__ROOT__', dirname(dirname(__FILE__)));
+
+
+
 require '../vendor/autoload.php';
+require_once '../src/controllers/index.php';
 
 //$corsOptions = array(
 //    "origin" => "*",
@@ -27,7 +33,6 @@ function getConnection() {
     return $dbh;
 };
 
-require_once '../src/controller.php';
 
 $app = new \Slim\App;
 
