@@ -20,6 +20,7 @@ $app->group('/api', function () use ($app) {
 
 
         $app->get('/test', 'workingPage');
+        $app->get('/test/{token}', 'workingPage2');
 
     });
 });

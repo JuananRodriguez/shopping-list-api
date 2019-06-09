@@ -1,17 +1,38 @@
 <?php
 
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 require_once(__ROOT__."/src/models/product.php");
+require_once(__ROOT__."/src/models/auth.php");
+
+
 
 function workingPage () {
 
-    $product = new Product();
-    $product->set('name', 'new name');
-    return json_encode( $product->getData() );
+//    $product = new Product();
+//    $product->set('name', 'new name');
+//    return json_encode( $product->getData() );
+
+
+    $usuario = 'eduardo';
+    $password = '123456';
+    if ($usuario  === 'eduardo' && $password === '123456') {
+        echo Auth::SignIn([
+            'id' => 1,
+            'name' => 'Eduardo'
+        ]);
+    }
 
 }
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+function workingPage2(Request $request, Response $response, array $args){
+    $token = $request->getAttribute('token');
+
+    echo Auth::Check($token);
+
+}
+
 
 class ProductCtl {
 
