@@ -74,7 +74,7 @@ class ProductCtl {
     public static function create(Request $request, Response $response, array $args)
     {
         $emp = json_decode($request->getBody());
-        $sql = "INSERT INTO products (name, quantity) VALUES (:name, :quantity, :list_id)";
+        $sql = "INSERT INTO products (name, quantity, list_id) VALUES (:name, :quantity, :list_id)";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
