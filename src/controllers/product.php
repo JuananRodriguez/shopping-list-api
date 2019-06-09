@@ -74,12 +74,13 @@ class ProductCtl {
     public static function create(Request $request, Response $response, array $args)
     {
         $emp = json_decode($request->getBody());
-        $sql = "INSERT INTO products (name, quantity) VALUES (:name, :quantity)";
+        $sql = "INSERT INTO products (name, quantity) VALUES (:name, :quantity, :list_id)";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
             $stmt->bindParam("name", $emp->name);
             $stmt->bindParam("quantity", $emp->quantity);
+            $stmt->bindParam("list_id", $emp->list);
 //            $stmt->bindParam("edad", $emp->edad);
             $stmt->execute();
             $emp->id = $db->lastInsertId();
@@ -94,12 +95,14 @@ class ProductCtl {
     {
         $emp = json_decode($request->getBody());
         $id = $request->getAttribute('id');
-        $sql = "UPDATE products SET name=:name, quantity=:quantity WHERE id=:id";
+        $sql = "UPDATE products SET name=:name, quantity=:quantity, list_id=:list_id WHERE id=:id";
         try {
             $db = getConnection();
             $stmt = $db->prepare($sql);
             $stmt->bindParam("name", $emp->name);
             $stmt->bindParam("quantity", $emp->quantity);
+            $stmt->bindParam("list_id", $emp->list);
+
 //            $stmt->bindParam("edad", $emp->edad);
             $stmt->bindParam("id", $id);
             $stmt->execute();

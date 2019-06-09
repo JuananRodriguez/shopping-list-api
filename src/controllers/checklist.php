@@ -13,8 +13,13 @@ class CheckListCtl {
 
     public static function getAll($response)
     {
-        $sql = "SELECT lists.id, lists.name, lists.created, lists.updated, COUNT(*) AS total_products FROM lists, products WHERE products.list_id = lists.id GROUP BY lists.id
-";
+        $sql = "
+            SELECT lists.id, lists.name, lists.created, lists.updated, COUNT(products.list_id) AS total_products 
+            FROM lists LEFT OUTER JOIN products
+            ON products.list_id = lists.id 
+            GROUP BY lists.id
+            ORDER BY lists.updated
+        ";
         try {
             $stmt = getConnection()->query($sql);
             $employees = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -27,8 +32,14 @@ class CheckListCtl {
 
     public static function get(Request $request, Response $response, array $args)
     {
-        $sql = "SELECT lists.id, lists.name, lists.created, lists.updated, COUNT(*) AS total_products  FROM lists, products WHERE products.list_id = lists.id AND lists.id = :id GROUP BY lists.id";
-        $id = $request->getAttribute('id');
+        $sql = "
+            SELECT lists.id, lists.name, lists.created, lists.updated, COUNT(products.list_id) AS total_products 
+            FROM lists LEFT OUTER JOIN products
+            ON products.list_id = lists.id
+            WHERE lists.id =:id
+            GROUP BY lists.id
+            ORDER BY lists.updated
+        ";        $id = $request->getAttribute('id');
 
         try {
             $db = getConnection();
