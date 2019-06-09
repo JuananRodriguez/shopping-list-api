@@ -4,13 +4,6 @@ $app->group('/api', function () use ($app) {
     // Version group
     $app->group('/v1', function () use ($app) {
 
-        $app->get('/empleados', 'obtenerEmpleados');
-        $app->get('/empleado/{id}', 'obtenerEmpleado');
-        $app->post('/empleado', 'agregarEmpleado');
-        $app->put('/empleado/{id}', 'actualizarEmpleado');
-        $app->delete('/empleado/{id}', 'eliminarEmpleado');
-
-
         /** Products CRUD */
         $app->get('/product', 'ProductCtl::getAll');
         $app->get('/product/{id}', 'ProductCtl::get');
@@ -19,6 +12,15 @@ $app->group('/api', function () use ($app) {
         $app->delete('/product/{id}', 'ProductCtl::delete');
 
 
+        /** Products CRUD */
+        $app->get('/list', 'CheckListCtl::getAll');
+        $app->get('/list/{id}', 'CheckListCtl::get');
+        $app->post('/list', 'CheckListCtl::create');
+        $app->put('/list/{id}', 'CheckListCtl::update');
+        $app->delete('/list/{id}', 'CheckListCtl::delete');
+
+
+        /*** Tests */
         $app->get('/test', 'workingPage');
         $app->get('/test/{token}', 'workingPage2');
 

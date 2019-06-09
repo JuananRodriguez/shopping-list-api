@@ -1,10 +1,9 @@
 <?php
 
-class Product {
+class Checklist {
     var $id = null;
-    var $list = '';
     var $name = '';
-    var $quantity = 0;
+    var $created = '';
 
 
 
